@@ -9,7 +9,7 @@ REFRENCES AND SITES
 * [CommonJS](http://www.commonjs.org/ "CommonJS")
 * [AMDJS](https://groups.google.com/group/amd-implement "AMDJS")
 * [MODULAR JS]( http://addyosmani.com/writing-modular-js/ "Learn modular JS")
-
+* ["http://net.tutsplus.com"](http://net.tutsplus.com "A helpful Site")
 Included:
 ============================
 * [jquery-1.8.3.js](http://code.jquery.com/jquery-1.8.3.js "jquery-1.8.3.js")

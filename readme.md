@@ -1,6 +1,6 @@
 ## Only Included JS Library ##
 --------------------------------------------------
-To  get JS library  simply between different project 
+To simply get JS library   between different project 
 
 
 REFRENCES AND SITES

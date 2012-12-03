@@ -3,12 +3,12 @@
 To  get JS library  simply between different project 
 
 
-REFRENCES
+REFRENCES AND SITES
 ============================
 * [JS-Module-Pattern](http://elegantcode.com/2011/02/15/basic-javascript-part-10-the-module-pattern/ "JS Module Pattern")
 * [CommonJS](http://www.commonjs.org/ "CommonJS")
 * [AMDJS](https://groups.google.com/group/amd-implement "AMDJS")
-
+* [MODULAR JS]( http://addyosmani.com/writing-modular-js/ "Learn modular JS")
 
 Included:
 ============================

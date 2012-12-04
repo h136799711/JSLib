@@ -2,12 +2,19 @@
 --------------------------------------------------
 To simply get JS library   between different project 
 
+PROJECT FILE STRUCTURE
+============================
+* js : library and utils
+* css : library and utils
+* test :
+* 
 
 REFRENCES AND SITES
 ============================
 * [JS-Module-Pattern](http://elegantcode.com/2011/02/15/basic-javascript-part-10-the-module-pattern/ "JS Module Pattern")
 * [CommonJS](http://www.commonjs.org/ "CommonJS")
 * [AMDJS](https://groups.google.com/group/amd-implement "AMDJS")
+* [AMD-SPECIFICATION](https://github.com/amdjs/amdjs-api/wiki/AMD "WIKI-AMD")
 * [MODULAR JS]( http://addyosmani.com/writing-modular-js/ "Learn modular JS")
 * ["http://net.tutsplus.com"](http://net.tutsplus.com "A helpful Site")
 * ["http://www.test.com"](http://www.test.com "A helpful  Test Site")

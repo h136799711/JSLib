@@ -11,6 +11,7 @@ REFRENCES AND SITES
 * [MODULAR JS]( http://addyosmani.com/writing-modular-js/ "Learn modular JS")
 * ["http://net.tutsplus.com"](http://net.tutsplus.com "A helpful Site")
 * ["http://www.test.com"](http://www.test.com "A helpful  Test Site")
+* ["writing-modular-js"](http://addyosmani.com/writing-modular-js/ "writing-modular-js")
 
 
 

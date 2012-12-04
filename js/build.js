@@ -1,5 +1,5 @@
 ({
 	baseUrl:".",
-	name:"qunit",
-	out:"qunit.min.js"
+	dir:"min/",
+	name:"qunit"
 })

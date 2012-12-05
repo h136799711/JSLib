@@ -11,9 +11,9 @@ define(['min/jquery-1.8.3'],function(){
 		if(!offset){
 			return ;
 		}
-	//	console.log(offset);
-		offset.top = $(window).scrollTop(); 
+		offset.top = window.scrollY; 
 		offset.left = 130; 
+		console.log(offset);
 		$("#"+_top_id).offset(offset);
 		if(offset.top === 0){
 			$("#"+_top_id).hide();
@@ -27,7 +27,6 @@ define(['min/jquery-1.8.3'],function(){
 		if(typeof opts === "string"){
 			_top_id = opts ;
 		}
-		scroll();
 		$(window).scroll(scroll);
 		$("#"+_top_id).click(function(){			
 			window.location.href = window.location.href.split("#")[0] + "#top";

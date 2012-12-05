@@ -15,5 +15,8 @@
 background:url();
 background-color:#ddd;
 cursor:pointer;
+font-family:Verdana;
+font-weight:bold;
+z-index:99999;
 }
 

@@ -13,7 +13,7 @@ define(['min/jquery-1.8.3'],function(){
 		}
 		offset.top = window.scrollY; 
 		offset.left = 130; 
-		console.log(offset);
+	//	console.log(offset);
 		$("#"+_top_id).offset(offset);
 		if(offset.top === 0){
 			$("#"+_top_id).hide();

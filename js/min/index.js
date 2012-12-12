@@ -1,1 +1,0 @@
-require(["scrollTop"],function(e){$(function(){e.scrollTop("click-top"),e.scrollTop("click-top")})});

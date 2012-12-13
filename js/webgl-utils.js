@@ -56,8 +56,8 @@
  * of your display but will stop rendering if your app is not
  * visible.
  */
-
-WebGLUtils = function() {
+define([],function(){
+var WebGLUtils = function() {
 
 /**
  * Creates the HTLM for a failure message
@@ -147,6 +147,8 @@ return {
 };
 }();
 
+	return WebGLUtils;
+});
 /**
  * Provides requestAnimationFrame in a cross browser way.
  */

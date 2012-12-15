@@ -52,6 +52,11 @@ define(function(){
 	_keys.NUM4 = 100;	_keys.NUM5 = 101;	_keys.NUM6 = 102;	_keys.NUM7 = 103;
 	_keys.NUM8 = 104;	_keys.NUM9 = 105;	_keys.ZERO = 48;	_keys.ONE  = 49; 	_keys.TWO = 50 ;
 	_keys.THREE =  51 ; 	_keys.FOUR =  52 ;	_keys.FIVE  = 53;	_keys.SIX = 54;	_keys.SEVEN  = 55 ;	_keys.EIGHT = 56;	_keys.NINE = 57; 
+	_keys.CLEAR = 12;
+	_keys.ENTER = 13;
+	_keys.SHIFT_L = 16;
+	_keys.CONTROL_L=17;
+	_keys.ALT_L = 18;
 	_keys.CAPS_LOCK =    20;
 	_keys.ESCAPE =    27;
     _keys.SPACE =    32 ;
@@ -70,20 +75,35 @@ define(function(){
 	_keys.SUB =109 ;
 	_keys.DOT = 110;
 	_keys.DIV  =111; 
-	
+	_keys.F1 = 112;
+	_keys.F2  = 113;
+	_keys.F3 = 115;
+	_keys.F4 = 116;
+	_keys.F5 = 117;
+	_keys.F6 = 118;
+	_keys.F7 = 119;
+	_keys.F10 = 120;
+	_keys.F11 = 121;
+	_keys.F12 = 122;
+	/**
+	** _selfLoop = false时为确保获得的按键次数结果正确需要适时调用update
+	** _selfLoop = true时为确保获得的按键次数结果正确需要正确设置_time_update
+	**/
+
+
 	var _keyStates =  new Array(257);
 	var _upkeys = [],_delayUp = 250;//ms
-	var _selfLoop=true,_intervalid=-1;
 	var _keyup_callbacks = [],_keydown_callbacks = [];
-	function initialize(){
+	function initialize(delayUp){
 		var i;
 		for(i=0;i<_keyStates.length;i++)
 		{
 			_keyStates[i] = {isdown:false,time:-99999999};
 		}
-		_selfLoop = arguments.length === 0 ? _selfLoop:arguments[0];
+		
+		_delayUp = (typeof delayUp === "undefined"  || delayUp < 250)? 250	 :	delayUp;
 	};
-
+	
 	function update(){
 		var now = (new Date()).getTime(),keys;
 		for(var code in _upkeys){
@@ -91,21 +111,10 @@ define(function(){
 			if(keys instanceof Array){
 				for(var i=0;i<keys.length;i++){
 					if(now - keys[i].uptime  > _delayUp){
-						if(!keys.splice){
-							debugger;
-						}
 						keys.splice(i,keys.length - i);
 						break;
 					}
 				}
-			}
-		}
-		if(_selfLoop){
-			_intervalid = setTimeout(function(){	input.update.apply(input);	 },8);
-		}else {
-			if(_intervalid!==-1){
-				clearTimeout(intervalid);
-				_intervalid = -1;
 			}
 		}
 	};
@@ -158,12 +167,37 @@ define(function(){
 	var isKeyUp = function(key){		return !_keyStates[key].isdown;		};
 	var isKeyDown = function(key){		return _keyStates[key].isdown;	 	};
 	/**
+	** 如果给出time_now则不会调用update更新放开按键的数据
+	** 函数中的现在也是由time_now指定
 	** @keycode {int} 要取得的按键
-	** @duration {number} 
+	** @duration {number}  时间段
+	** @time_now {number} 作为当前的时间
 	** @return {number} 此时减去duration的时间段内，keycode被按下的次数
+	** @example 
+	** 总共有3中方法调用，如下：
+	** 如果在一个函数内大量调用此方法，建议用第一种方法
+	** <pre><code>
+	** var time_now = (new Date()).getTime(),key_press_cnt=0;
+	** for(var i=0;i<1000;i++){
+	**  key_press_cnt =  Input.getPressCount(Input.KEYS.LEFT,50,time_now);
+	**	}//每次获得结果是相同的
+	** for(var i=0;i<1000;i++){
+	**  key_press_cnt =  Input.getPressCount(Input.KEYS.LEFT);
+	**	}//获得结果会有不同，因为循环也会耗时
+	** for(var i=0;i<1000;i++){
+	**  time_now = (new Date()).getTime();
+	**  key_press_cnt =  Input.getPressCount(Input.KEYS.LEFT,50,time_now);
+	**	}//获得结果会有不同，因为作为当前时间每次循环如果不同的话
+	** for(var i=0;i<1000;i++){
+	**  key_press_cnt =  Input.getPressCount(Input.KEYS.LEFT,50);
+	**	}//获得结果会有不同，因为作为当前时间每次循环如果不同的话
+	** </code></pre>
 	**/
-	var getPressCount = function(keycode,duration){
-		var now = (new Date()).getTime(),cnt=0,keys;
+	var getPressCount = function(keycode,duration,time_now){
+		if(!time_now){
+			update();
+		}
+		var now =time_now || (new Date()).getTime(),cnt=0,keys;
 		duration = duration || 48; 
 		if(_upkeys[keycode] instanceof Array){
 			keys = _upkeys[keycode];

@@ -1,4 +1,4 @@
-define(function(){
+(function(){
 	var _keys = {};
 	_keys.A = 65;_keys.B =66;_keys.C = 67;_keys.D = 68;_keys.E = 69;
 	_keys.F = 70;_keys.G =71;_keys.H = 72;_keys.I = 73;_keys.J = 74;
@@ -196,6 +196,7 @@ define(function(){
 			keydown:keydown
 
 	};
-	return input;
-});
-
+	if(typeof require !== "undefined" && typeof define === "function"){
+	define(function(){	return input;	});
+	}
+})();

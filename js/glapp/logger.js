@@ -1,4 +1,4 @@
-define(function(){
+(function(){
 	var logger = {
 		LOGCONSOLE : 0X000001,
 		LOGALERT : 0X000002,
@@ -7,7 +7,7 @@ define(function(){
 	function logToConsole(msg){		
 			console.log(msg);
 	}
-	function logToElement(msg){		
+	function logToElement(msg){	
 		var id = "console";
 		var ele = doc.getElementById(id) || doc.getElementsByTagName("body")[0];
 		var div = doc.createElement("div");
@@ -38,8 +38,11 @@ define(function(){
 		}
 		return logger;
 	};
-	return logger;
-});
+	
+	if(typeof require !== "undefined" && typeof define === "function"){
+		define(function(){	return logger;	});
+	}
+})();
 
 
 

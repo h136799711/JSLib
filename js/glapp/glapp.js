@@ -137,6 +137,5 @@ glapp.extend({
 	Logger:logger,
 	Input:input
 });
-//window.glapp = window.$g = glapp;
 return glapp;
 });

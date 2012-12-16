@@ -1,5 +1,5 @@
 
-define(function(){	
+(function(){	
 	//event listener
 	var event = function (){
 		this._listeners= [];
@@ -55,8 +55,10 @@ define(function(){
 	event.prototype.create = function(){
 		return new event();
 	}
-	return (new event());
-});
+	if(typeof require !== "undefined" && typeof define === "function"){
+		define(function(){	return (new event());	});
+	}
+})();
 
 
 

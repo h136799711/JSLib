@@ -1,8 +1,5 @@
-define(function(){
-
-//utils
-var utils = (function(){			
-	return {
+;(function(){
+var utils ={
 		each:function (o,callback){
 			if(typeof o ===  "Array" || typeof o === "NodeList" || (o && o.length)){
 				for(var i=0;i<o.length;i++){
@@ -22,14 +19,7 @@ var utils = (function(){
 		}
 	};
 
+	if(typeof require !== "undefined" && typeof define === "function"){
+		define(function(){	return utils;		});
+	}
 })();
-
-return utils;
-});
-
-
-
-
-
-
-//////////////////////////////////////////////////////////////////////

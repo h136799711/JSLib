@@ -4,17 +4,17 @@
 		LOGALERT : 0X000002,
 		LOGELEMENTBYID : 0X000004
 	};
-	function logToConsole(msg){		
+	function logToConsole(msg){
 			console.log(msg);
 	}
 	function logToElement(msg){	
 		var id = "console";
-		var ele = doc.getElementById(id) || doc.getElementsByTagName("body")[0];
-		var div = doc.createElement("div");
-		div.innerHTML = '<div style="font:1.5em bold;color:white;">'+msg+'</div>';
+		var ele = document.getElementById(id) || document.getElementsByTagName("body")[0];
+		var div = document.createElement("div");
+		div.innerHTML = '<div style="font:1.5em bold;color:red;">'+msg+'</div>';
 		div.style.border = "1px solid #dd7";
-		div.style.background= " #111111 ";
-		doc.body.insertBefore(div,doc.body.firstChild);
+		div.style.background= " #ffffff ";
+		document.body.insertBefore(div,document.body.firstChild);
 	}
 	function logToAlert(msg){		
 			alert(msg);

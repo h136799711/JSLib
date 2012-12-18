@@ -26,7 +26,7 @@
 	_keys.F5 = 117;	_keys.F6 = 118;
 	_keys.F7 = 119;	_keys.F10 = 120;
 	_keys.F11 = 121;	_keys.F12 = 122;
-
+	
 	
 	var _keyStates =  new Array(257);
 	var _upkeys = [],_delayUp = 250;//ms
@@ -55,7 +55,22 @@
 			}
 		}
 	};
-	function onkeyPress(ev){
+	var callbacks;
+	function keydownup(arr,ev){		
+		if(arr[ev.keyCode]){
+			 callbacks = arr[ev.keyCode];
+			for(var i = callbacks.length - 1 ; i >= 0 ;  i--){
+				callbacks[i]();
+			}
+		}
+		if(arr["all"]){
+			callbacks = arr["all"];
+			for(var i = callbacks.length-1 ; i >=0 ; i--){
+				callbacks[i](ev);
+			}
+		}
+	}
+	function onkeyPress(ev){		
 		if(ev.keyCode >= 39 && ev.keyCode <= 42)	{
 			ev.preventDefault();
 		}
@@ -65,20 +80,7 @@
 		_keyStates[ev.keyCode].time = ev.timeStamp || (new Date()).getTime();
 		
 		
-		var callbacks,i;
-		if(_keydown_callbacks[ev.keyCode]){
-			 callbacks = _keydown_callbacks[ev.keyCode];
-			for(i = callbacks.length - 1 ; i >= 0 ;  i--){
-				callbacks[i]();
-			}
-		}
-		if(_keydown_callbacks["all"]){
-			callbacks = _keydown_callbacks["all"];
-			for(i = callbacks.length ; i >=0 ; i--){
-				callbacks[i](ev);
-			}
-		}
-
+		keydownup(_keydown_callbacks,ev);
 		if(ev.keyCode >= 39 && ev.keyCode <= 42)	{
 			ev.preventDefault();
 		}
@@ -88,15 +90,33 @@
 			_upkeys[code] = [];
 		}
 		_upkeys[code].push({downtime:downtime,uptime:uptime});
-
-	}
-	var onkeyUp = function(ev){
+		
+	};
+	function onkeyUp(ev){
 		pushUpkey(ev.keyCode,_keyStates[ev.keyCode].time,(ev.timeStamp || (new Date()).getTime()));
 		_keyStates[ev.keyCode].isdown = false;		
 		_keyStates[ev.keyCode].time = -99999999;	
+		var callbacks,i;
+		keydownup(_keyup_callbacks,ev);
+	
 	};
-	var bindListeners = function(ele){
-		ele = ele || document.body;
+
+
+	var bindAll = function(ele){
+		if(typeof _keyStates[0] === "undefined" || typeof _keyStates[0].isdown === "undefined"){
+			throw new Error(["input must initialize frist."]);
+		}
+		bindKeyListeners(ele);
+	};
+	var unbindAll = function(ele){
+		unbindKeyListeners(ele);
+	};
+	
+	var bindKeyListeners = function(ele){
+		if(typeof _keyStates[0] === "undefined" || typeof _keyStates[0].isdown === "undefined"){
+			throw new Error(["input must initialize frist."]);
+		}
+		ele = ele || document;
 		if(ele.addEventListener){
 			ele.addEventListener("keypress",onkeyPress);
 			ele.addEventListener("keydown",onkeyDown);
@@ -109,7 +129,7 @@
 			ele.innerHTML += "Can't bindListeners";
 		}
 	};
-	var unbindListeners = function(ele){		
+	var unbindKeyListeners = function(ele){		
 		ele = ele || document.body;
 		if(ele.removeEventListener){
 			ele.removeEventListener("keypress",onkeyPress);
@@ -168,6 +188,35 @@
 	
 		return cnt;
 	};
+	var rmKeydownListener = function(keycode,callback){
+		
+			if(_keydown_callbacks[keycode]){
+				if(typeof callback === "undefined"){
+					_keydown_callbacks[keycode].length = 0;
+					return ;
+				}
+				for(var i =0,len=_keydown_callbacks[keycode].length;i<len;i++){
+					if(_keydown_callbacks[keycode][i] === callback){
+						_keydown_callbacks[keycode].splice(i,1);
+						return ;
+					}
+				}
+			}
+	};
+	var rmKeyupListener = function(keycode,callback){
+			if(_keyup_callbacks[keycode]){
+				if(typeof callback === "undefined"){
+					_keyup_callbacks[keycode].length = 0;
+					return ;
+				}
+				for(var i =0,len=_keyup_callbacks[keycode].length;i<len;i++){
+					if(_keyup_callbacks[keycode][i] === callback){
+						_keyup_callbacks[keycode].splice(i,1);
+						return ;
+					}
+				}
+			}
+	};
 	var keydown =function(keycode,callback){
 		if(typeof keycode === "function"){
 			callback = keycode;
@@ -180,20 +229,30 @@
 		_keydown_callbacks[keycode].push(callback);
 	};
 	var keyup =function(keycode,callback){
+		if(typeof keycode === "function"){
+			callback = keycode;
+			keycode = "all";
+		}
 		if(!_keyup_callbacks[keycode]){
 			_keyup_callbacks[keycode] = [];
 		}
 		_keyup_callbacks[keycode].push(callback);
-
+		
 	};
 	var input = {
-			bindListeners:bindListeners,
-			unbindListeners:unbindListeners,
+			bindAll:bindAll,
+			unbindAll:unbindAll,
+			bindKeyListeners:bindKeyListeners,
+			unbindKeyListeners:unbindKeyListeners,
 			initialize:initialize,
 			isKeyDown:isKeyDown,
 			isKeyUp:isKeyUp ,
 			getPressCount:getPressCount,
-			keydown:keydown
+			keydown:keydown,
+			keyup:keyup,
+			rmKeydownListener:rmKeydownListener,
+			rmKeyupListener:rmKeyupListener,
+			KEYS:_keys
 
 	};
 	if(typeof require !== "undefined" && typeof define === "function"){

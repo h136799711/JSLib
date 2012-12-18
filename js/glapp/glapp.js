@@ -60,6 +60,8 @@ var canvas = (function(){
 		_gl.viewportHeight = ele.height;
 		_gl.clearColor(0,0,0,1);
 		_gl.clear(_gl.COLOR_BUFFER_BIT);
+		_gl.enable(_gl.DEPTH_TEST);
+		glapp.fireEvent("initWebGL",canvasID);
 		return _gl;
 	}
 	function makeShader(src,type){
@@ -122,11 +124,12 @@ var canvas = (function(){
 		setRender(renderer);
 	}
 	function render(){
-		executeProgram();
+		_render.drawScene();
 	}
 	return {
 		initialize:initialize,
-		render:render
+		render:render,
+		executeProgram:executeProgram
 	};
 })();
 
@@ -137,5 +140,7 @@ glapp.extend({
 	Logger:logger,
 	Input:input
 });
+glapp.extend(event.create());
+window.glapp = glapp;
 return glapp;
 });

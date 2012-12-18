@@ -21,7 +21,7 @@
 	event.prototype.addListenerForOneTime = function(type, fn) {
 			this.addListener(type,fn,true);
 	};
-	event.prototype.fireListener = function(type, args) {
+	event.prototype.fireEvent = function(type, args) {
 			var arrayListener = this._listeners[type];
 			if (arrayListener instanceof Array) {
 				var i;
@@ -52,11 +52,11 @@
 			return true;
 		}
 	};
-	event.prototype.create = function(){
+	event.create = function(){
 		return new event();
 	}
 	if(typeof require !== "undefined" && typeof define === "function"){
-		define(function(){	return (new event());	});
+		define(function(){	return event;	});
 	}
 })();
 
